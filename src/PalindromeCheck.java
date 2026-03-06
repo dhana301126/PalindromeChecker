@@ -1,15 +1,15 @@
-public class PalindromeCheckerApp {
+public class PalindromeCheck {
     public static void main(String[] args) {
         // Hardcoded string
-        String text = "racecar";
+        String text = "level";
 
-        // Normalize the string (convert to lowercase)
+        // Normalize the string (optional: lowercase, remove spaces)
         String normalizedText = text.toLowerCase();
 
         // Reverse the string
         String reversedText = new StringBuilder(normalizedText).reverse().toString();
 
-        // Check if palindrome
+        // Compare original and reversed
         if (normalizedText.equals(reversedText)) {
             System.out.println("\"" + text + "\" is a palindrome.");
         } else {
