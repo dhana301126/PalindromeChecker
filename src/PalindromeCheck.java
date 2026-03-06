@@ -1,16 +1,31 @@
 public class PalindromeCheck {
     public static void main(String[] args) {
         // Hardcoded string
-        String text = "level";
+        String text = "racecar";
 
-        // Normalize the string (optional: lowercase, remove spaces)
+        // Normalize the string (lowercase, optional: remove spaces)
         String normalizedText = text.toLowerCase();
 
-        // Reverse the string
-        String reversedText = new StringBuilder(normalizedText).reverse().toString();
+        // Convert to character array
+        char[] chars = normalizedText.toCharArray();
 
-        // Compare original and reversed
-        if (normalizedText.equals(reversedText)) {
+        // Initialize pointers
+        int left = 0;
+        int right = chars.length - 1;
+        boolean isPalindrome = true;
+
+        // Compare characters from both ends
+        while (left < right) {
+            if (chars[left] != chars[right]) {
+                isPalindrome = false;
+                break;
+            }
+            left++;
+            right--;
+        }
+
+        // Display result
+        if (isPalindrome) {
             System.out.println("\"" + text + "\" is a palindrome.");
         } else {
             System.out.println("\"" + text + "\" is not a palindrome.");
