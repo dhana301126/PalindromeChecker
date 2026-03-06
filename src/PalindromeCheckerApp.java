@@ -1,21 +1,19 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-class PalindromeCheckerApp {
-
+public class PalindromeCheckerApp {
     public static void main(String[] args) {
+        // Hardcoded string
+        String text = "racecar";
 
-        System.out.println("=======================================");
-        System.out.println("     WELCOME TO PALINDROME CHECKER     ");
-        System.out.println("=======================================");
-        System.out.println("This application checks whether a word");
-        System.out.println("or number is a palindrome or not.");
-        System.out.println();
-        System.out.println("A palindrome reads the same forward");
-        System.out.println("and backward.");
-        System.out.println();
-        System.out.println("Example:");
-        System.out.println("madam -> Palindrome");
-        System.out.println("hello -> Not a Palindrome");
-        System.out.println("=======================================");
+        // Normalize the string (convert to lowercase)
+        String normalizedText = text.toLowerCase();
+
+        // Reverse the string
+        String reversedText = new StringBuilder(normalizedText).reverse().toString();
+
+        // Check if palindrome
+        if (normalizedText.equals(reversedText)) {
+            System.out.println("\"" + text + "\" is a palindrome.");
+        } else {
+            System.out.println("\"" + text + "\" is not a palindrome.");
+        }
     }
 }
