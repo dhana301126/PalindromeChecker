@@ -1,4 +1,13 @@
+import java.util.Stack;
+
 public class PalindromeChecker {
+
+    // Enum to choose algorithm
+    public enum Algorithm {
+        ITERATIVE,
+        RECURSIVE,
+        STACK
+    }
 
     private String text;
 
@@ -7,49 +16,64 @@ public class PalindromeChecker {
         this.text = text;
     }
 
-    // Normalize string: remove non-alphanumeric characters and convert to lowercase
+    // Normalize string (ignore spaces, punctuation, and case)
     private String normalize(String input) {
         return input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
     }
 
-    // Iterative method to check palindrome
-    public boolean isPalindrome() {
-        String normalizedText = normalize(this.text);
-
-        int left = 0;
-        int right = normalizedText.length() - 1;
-
+    // Iterative two-pointer palindrome check
+    private boolean isPalindromeIterative(String str) {
+        int left = 0, right = str.length() - 1;
         while (left < right) {
-            if (normalizedText.charAt(left) != normalizedText.charAt(right)) {
-                return false;
-            }
+            if (str.charAt(left) != str.charAt(right)) return false;
             left++;
             right--;
         }
-
         return true;
     }
 
-    // Recursive method to check palindrome
-    public boolean isPalindromeRecursive() {
-        return isPalindromeRecursiveHelper(normalize(this.text), 0, normalize(this.text).length() - 1);
+    // Recursive palindrome check
+    private boolean isPalindromeRecursive(String str, int left, int right) {
+        if (left >= right) return true;
+        if (str.charAt(left) != str.charAt(right)) return false;
+        return isPalindromeRecursive(str, left + 1, right - 1);
     }
 
-    private boolean isPalindromeRecursiveHelper(String str, int left, int right) {
-        if (left >= right) {
-            return true;
+    // Stack-based palindrome check
+    private boolean isPalindromeStack(String str) {
+        Stack<Character> stack = new Stack<>();
+        for (char ch : str.toCharArray()) {
+            stack.push(ch);
         }
-        if (str.charAt(left) != str.charAt(right)) {
-            return false;
+        for (char ch : str.toCharArray()) {
+            if (ch != stack.pop()) return false;
         }
-        return isPalindromeRecursiveHelper(str, left + 1, right - 1);
+        return true;
     }
 
+    // Public method to choose algorithm dynamically
+    public boolean checkPalindrome(Algorithm algo) {
+        String normalized = normalize(this.text);
+
+        switch (algo) {
+            case ITERATIVE:
+                return isPalindromeIterative(normalized);
+            case RECURSIVE:
+                return isPalindromeRecursive(normalized, 0, normalized.length() - 1);
+            case STACK:
+                return isPalindromeStack(normalized);
+            default:
+                throw new IllegalArgumentException("Unknown algorithm: " + algo);
+        }
+    }
+
+    // Demo
     public static void main(String[] args) {
-        PalindromeChecker checker1 = new PalindromeChecker("RaceCar");
-        System.out.println("\"RaceCar\" is palindrome? " + checker1.isPalindrome());
+        String text = "A man, a plan, a canal, Panama";
+        PalindromeChecker checker = new PalindromeChecker(text);
 
-        PalindromeChecker checker2 = new PalindromeChecker("A man, a plan, a canal, Panama");
-        System.out.println("\"A man, a plan, a canal, Panama\" is palindrome? " + checker2.isPalindromeRecursive());
+        System.out.println("Iterative: " + checker.checkPalindrome(Algorithm.ITERATIVE));
+        System.out.println("Recursive: " + checker.checkPalindrome(Algorithm.RECURSIVE));
+        System.out.println("Stack: " + checker.checkPalindrome(Algorithm.STACK));
     }
 }
