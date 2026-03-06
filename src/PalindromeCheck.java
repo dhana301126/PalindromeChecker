@@ -1,31 +1,29 @@
+import java.util.Stack;
+
 public class PalindromeCheck {
     public static void main(String[] args) {
         // Hardcoded string
         String text = "racecar";
 
-        // Normalize the string (lowercase, optional: remove spaces)
-        String normalizedText = text.toLowerCase();
+        // Normalize the string (optional: lowercase and remove spaces)
+        String normalizedText = text.toLowerCase().replaceAll("\\s+", "");
 
-        // Convert to character array
-        char[] chars = normalizedText.toCharArray();
+        // Create a stack
+        Stack<Character> stack = new Stack<>();
 
-        // Initialize pointers
-        int left = 0;
-        int right = chars.length - 1;
-        boolean isPalindrome = true;
-
-        // Compare characters from both ends
-        while (left < right) {
-            if (chars[left] != chars[right]) {
-                isPalindrome = false;
-                break;
-            }
-            left++;
-            right--;
+        // Push all characters onto the stack
+        for (char ch : normalizedText.toCharArray()) {
+            stack.push(ch);
         }
 
-        // Display result
-        if (isPalindrome) {
+        // Build the reversed string by popping characters from stack
+        StringBuilder reversedText = new StringBuilder();
+        while (!stack.isEmpty()) {
+            reversedText.append(stack.pop());
+        }
+
+        // Check if palindrome
+        if (normalizedText.equals(reversedText.toString())) {
             System.out.println("\"" + text + "\" is a palindrome.");
         } else {
             System.out.println("\"" + text + "\" is not a palindrome.");
